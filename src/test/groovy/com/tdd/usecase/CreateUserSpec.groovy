@@ -35,4 +35,21 @@ class CreateUserSpec extends Specification {
         and: "user must be created"
         result.id != null
     }
+
+    def "Received some errors on create user"() {
+        given: "invalid user"
+        User user = Fixture.from(User.class).gimme(UserTemplates.INVALID_USER)
+
+        when: "I call the method"
+        User result = createUser.execute(user)
+
+        then: "user gateway cannot be called"
+        0 * userGateway.createUser(_ as User)
+
+        and: "the errors message must be ok"
+        !result.errors.isEmpty()
+        result.errors.size() == 2
+        result.errors[0].message == "name cannot be empty"
+        result.errors[1].message == "document cannot be empty"
+    }
 }
