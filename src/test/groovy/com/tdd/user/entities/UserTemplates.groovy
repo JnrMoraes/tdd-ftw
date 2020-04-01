@@ -8,6 +8,7 @@ class UserTemplates implements TemplateLoader {
     public static String VALID = "valid user"
     public static String CREATED_USER = "created user"
     public static String INVALID_USER = "invalid user"
+
     @Override
     void load() {
         Fixture.of(User.class).addTemplate(VALID, new Rule(){
